@@ -70,23 +70,8 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    finishTasks.addEventListener('change', function(e) {
-        let idInputOld = e.target.getAttribute('id');
-        let forlabelOld = finishTasks.querySelector('[for=' + idInputOld + ']');
-
-        let valueOldLabel = forlabelOld.textContent;
-
-        todoList.forEach(function(item) {
-            if (item.todo === valueOldLabel) {
-                item.checked = !item.checked;
-
-                displayTasks();
-                SaveStorage();
-            }
-        });
-    });
-
     startTasks.addEventListener('contextmenu', function(e) {
+        console.log(e.target);
         e.preventDefault();
 
         todoList.forEach(function(item) {
@@ -97,6 +82,22 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // finishTasks.addEventListener('change', function(e) {
+    //     let idInputOld = e.target.getAttribute('id');
+    //     let forlabelOld = finishTasks.querySelector('[for=' + idInputOld + ']');
+
+    //     let valueOldLabel = forlabelOld.textContent;
+
+    //     todoList.forEach(function(item) {
+    //         if (item.todo === valueOldLabel) {
+    //             item.checked = !item.checked;
+
+    //             displayTasks();
+    //             SaveStorage();
+    //         }
+    //     });
+    // });
 
     function displayTasks() {
         let displayTasks = '';

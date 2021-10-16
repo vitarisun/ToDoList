@@ -148,3 +148,8 @@ ul li.editMode label {
 button.checkbox {
     float: left;
 }
+
+.important {
+    font-weight: bold;
+    color: #a40e11;
+}
