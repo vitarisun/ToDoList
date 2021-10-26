@@ -22,6 +22,8 @@ window.addEventListener('DOMContentLoaded', () => {
             todo: newTask.value,
             checked: false,
             important: false,
+            edit: false,
+            delete: false,
         };
         todoList.push(newToDo);
     }
@@ -71,6 +73,10 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     finishTasks.addEventListener('change', function(e) {
+        // console.log(e.target.getAttribute('id'));
+        // console.log(e.target);
+        // console.log(e.target.tagName);
+
         let idInputOld = e.target.getAttribute('id');
         let forlabelOld = finishTasks.querySelector('[for=' + idInputOld + ']');
 
@@ -112,7 +118,7 @@ window.addEventListener('DOMContentLoaded', () => {
           item.important ? 'important' : ''
         }"}>${item.todo}</label>
             </button>
-            <button class="material-icons edit">
+            <button class="material-icons-edit">
             <i class="material-icons">edit</i>
             </button>
             </li>
@@ -130,11 +136,14 @@ window.addEventListener('DOMContentLoaded', () => {
                 <input type = 'checkbox' id = 'item_${i}' ${
           item.checked ? 'checked' : ''
         }>
-                <label for = 'item_${i}'>${item.todo}</label>
-            <button class="material-icons edit">
-            <i class="material-icons">edit</i></button>
-            <button class="material-icons delete">
-            <i class="material-icons">delete</i></button></li>
+            <label for = 'item_${i}'>${item.todo}</label>
+             <button class="material-icons-delete">
+            <i type = 'button' id = btnDelete class="material-icons">delete</i>
+            </button>
+            <button class="material-icons-edit">
+            <i id="btnEdit"class="material-icons">edit</i>
+            </button>
+            </li>
                 `;
             }
         });
