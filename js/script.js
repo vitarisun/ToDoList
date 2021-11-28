@@ -65,14 +65,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
   startTasks.addEventListener('change', function (e) {
     let idInput = e.target.getAttribute('id');
-
     let forLabel = startTasks.querySelector('[for=' + idInput + ']');
     let valueLabel = forLabel.textContent;
 
     todoList.forEach(function (item) {
       if (item.todo === valueLabel) {
         item.checked = !item.checked;
-
         displayTasks();
         SaveStorage();
       }
@@ -80,19 +78,13 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   finishTasks.addEventListener('change', function (e) {
-    // console.log(e.target.getAttribute('id'));
-    // console.log(e.target);
-    // console.log(e.target.tagName);
-
     let idInputOld = e.target.getAttribute('id');
     let forlabelOld = finishTasks.querySelector('[for=' + idInputOld + ']');
-
     let valueOldLabel = forlabelOld.textContent;
 
     todoList.forEach(function (item) {
       if (item.todo === valueOldLabel) {
         item.checked = !item.checked;
-
         displayTasks();
         SaveStorage();
       }
@@ -114,6 +106,18 @@ window.addEventListener('DOMContentLoaded', () => {
   function genID() {
     return Math.floor(Math.random() * 100000);
   }
+
+  finishTasks.addEventListener('click', function (e) {
+    const element = +e.target.getAttribute('id');
+
+    todoList.forEach(function (item, i) {
+      if (item.id === element) {
+        todoList.splice(i, 1);
+        displayTasks();
+        SaveStorage();
+      }
+    });
+  });
 
   function displayTasks() {
     let displayTasks = '';
