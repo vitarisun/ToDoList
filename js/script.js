@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   if (data) {
     todoList = JSON.parse(data);
-    id = todoList.length;
+    id = id;
     displayTasks();
   } else {
     todoList = [];
@@ -80,7 +80,9 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   finishTasks.addEventListener('change', function (e) {
-    console.log(e.target.getAttribute('id'));
+    // console.log(e.target.getAttribute('id'));
+    // console.log(e.target);
+    // console.log(e.target.tagName);
 
     let idInputOld = e.target.getAttribute('id');
     let forlabelOld = finishTasks.querySelector('[for=' + idInputOld + ']');
@@ -103,7 +105,6 @@ window.addEventListener('DOMContentLoaded', () => {
     todoList.forEach(function (item) {
       if (item.todo === e.target.innerHTML) {
         item.important = !item.important;
-
         displayTasks();
         SaveStorage();
       }
@@ -143,12 +144,12 @@ window.addEventListener('DOMContentLoaded', () => {
       if (item.checked === true) {
         displayTasks += `
                 <li>
-                <input type = 'checkbox' id =  job="complete" 'item_${i}' ${
+                <input type = 'checkbox' id = 'item_${i}' ${
           item.checked ? 'checked' : ''
         }>
             <label for = 'item_${i}'>${item.todo}</label>
              <button class="material-icons-delete">
-            <i type = 'button' for ='item_${i}' job = "btnDelete" class="material-icons">delete</i>
+            <i type = 'button' id = ${item.id} class="material-icons">delete</i>
             </button>
             <button class="material-icons-edit">
             <i id="btnEdit"class="material-icons">edit</i>

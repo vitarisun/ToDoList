@@ -153,3 +153,7 @@ button.checkbox {
   font-weight: bold;
   color: #a40e11;
 }
+
+#finishTasks .material-icons-delete:hover {
+  color: #cf2323;
+}
