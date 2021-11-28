@@ -1,115 +1,125 @@
 'use strict';
 
 window.addEventListener('DOMContentLoaded', () => {
-    const addButton = document.getElementById('add');
-    const newTask = document.getElementById('newTask');
-    const startTasks = document.getElementById('startTasks');
-    const finishTasks = document.getElementById('finishTasks');
+  const addButton = document.getElementById('add');
+  const newTask = document.getElementById('newTask');
+  const startTasks = document.getElementById('startTasks');
+  const finishTasks = document.getElementById('finishTasks');
 
-    let todoList = [];
+  let todoList, id;
 
-    if (localStorage.getItem('todo')) {
-        todoList = JSON.parse(localStorage.getItem('todo'));
+  let data = localStorage.getItem('todo');
+
+  if (data) {
+    todoList = JSON.parse(data);
+    id = todoList.length;
+    displayTasks();
+  } else {
+    todoList = [];
+    id = 0;
+  }
+
+  function SaveStorage() {
+    localStorage.setItem('todo', JSON.stringify(todoList));
+  }
+
+  function newToDo() {
+    let newToDo = {
+      todo: newTask.value,
+      id: genID(),
+      checked: false,
+      important: false,
+      edit: false,
+      delete: false,
+    };
+    todoList.push(newToDo);
+  }
+
+  addButton.addEventListener('click', function (e) {
+    enterText();
+    clearNewTask();
+  });
+
+  newTask.addEventListener('keydown' || 'click', function (e) {
+    if (e.code == 'Enter' || e.code == 'NumpadEnter') {
+      enterText();
+      clearNewTask();
+    }
+  });
+
+  function enterText() {
+    if (newTask.value == '') {
+      alert('Введите задачу!');
+    } else {
+      newToDo();
+      displayTasks();
+      SaveStorage();
+    }
+  }
+
+  function clearNewTask() {
+    setTimeout(() => {
+      newTask.value = '';
+    }, 200);
+  }
+
+  startTasks.addEventListener('change', function (e) {
+    let idInput = e.target.getAttribute('id');
+
+    let forLabel = startTasks.querySelector('[for=' + idInput + ']');
+    let valueLabel = forLabel.textContent;
+
+    todoList.forEach(function (item) {
+      if (item.todo === valueLabel) {
+        item.checked = !item.checked;
+
         displayTasks();
-    }
-
-    function SaveStorage() {
-        localStorage.setItem('todo', JSON.stringify(todoList));
-    }
-
-    function newToDo() {
-        let newToDo = {
-            todo: newTask.value,
-            checked: false,
-            important: false,
-            edit: false,
-            delete: false,
-        };
-        todoList.push(newToDo);
-    }
-
-    addButton.addEventListener('click', function(e) {
-        enterText();
-        clearNewTask();
+        SaveStorage();
+      }
     });
+  });
 
-    newTask.addEventListener('keydown' || 'click', function(e) {
-        if (e.code == 'Enter' || e.code == 'NumpadEnter') {
-            enterText();
-            clearNewTask();
-        }
+  finishTasks.addEventListener('change', function (e) {
+    console.log(e.target.getAttribute('id'));
+
+    let idInputOld = e.target.getAttribute('id');
+    let forlabelOld = finishTasks.querySelector('[for=' + idInputOld + ']');
+
+    let valueOldLabel = forlabelOld.textContent;
+
+    todoList.forEach(function (item) {
+      if (item.todo === valueOldLabel) {
+        item.checked = !item.checked;
+
+        displayTasks();
+        SaveStorage();
+      }
     });
+  });
 
-    function enterText() {
-        if (newTask.value == '') {
-            alert('Введите задачу!');
-        } else {
-            newToDo();
-            displayTasks();
-            SaveStorage();
-        }
-    }
+  startTasks.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
 
-    function clearNewTask() {
-        setTimeout(() => {
-            newTask.value = '';
-        }, 200);
-    }
+    todoList.forEach(function (item) {
+      if (item.todo === e.target.innerHTML) {
+        item.important = !item.important;
 
-    startTasks.addEventListener('change', function(e) {
-        let idInput = e.target.getAttribute('id');
-
-        let forLabel = startTasks.querySelector('[for=' + idInput + ']');
-        let valueLabel = forLabel.textContent;
-
-        todoList.forEach(function(item) {
-            if (item.todo === valueLabel) {
-                item.checked = !item.checked;
-
-                displayTasks();
-                SaveStorage();
-            }
-        });
+        displayTasks();
+        SaveStorage();
+      }
     });
+  });
 
-    finishTasks.addEventListener('change', function(e) {
-        // console.log(e.target.getAttribute('id'));
-        // console.log(e.target);
-        // console.log(e.target.tagName);
+  function genID() {
+    return Math.floor(Math.random() * 100000);
+  }
 
-        let idInputOld = e.target.getAttribute('id');
-        let forlabelOld = finishTasks.querySelector('[for=' + idInputOld + ']');
+  function displayTasks() {
+    let displayTasks = '';
 
-        let valueOldLabel = forlabelOld.textContent;
-
-        todoList.forEach(function(item) {
-            if (item.todo === valueOldLabel) {
-                item.checked = !item.checked;
-
-                displayTasks();
-                SaveStorage();
-            }
-        });
-    });
-
-    startTasks.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-
-        todoList.forEach(function(item) {
-            if (item.todo === e.target.innerHTML) {
-                item.important = !item.important;
-                displayTasks();
-                SaveStorage();
-            }
-        });
-    });
-
-    function displayTasks() {
-        let displayTasks = '';
-
-        todoList.forEach(function(item, i) {
-            if (item.checked === false) {
-                displayTasks += `
+    todoList.forEach(function (item, i) {
+      if (item.checked === false) {
+        displayTasks += `
             <li>
             <input type = 'checkbox' id = 'item_${i}' ${
           item.checked ? 'checked' : ''
@@ -123,30 +133,30 @@ window.addEventListener('DOMContentLoaded', () => {
             </button>
             </li>
             `;
-            }
-        });
-        startTasks.innerHTML = displayTasks;
+      }
+    });
+    startTasks.innerHTML = displayTasks;
 
-        displayTasks = '';
+    displayTasks = '';
 
-        todoList.forEach(function(item, i) {
-            if (item.checked === true) {
-                displayTasks += `
+    todoList.forEach(function (item, i) {
+      if (item.checked === true) {
+        displayTasks += `
                 <li>
-                <input type = 'checkbox' id = 'item_${i}' ${
+                <input type = 'checkbox' id =  job="complete" 'item_${i}' ${
           item.checked ? 'checked' : ''
         }>
             <label for = 'item_${i}'>${item.todo}</label>
              <button class="material-icons-delete">
-            <i type = 'button' id = btnDelete class="material-icons">delete</i>
+            <i type = 'button' for ='item_${i}' job = "btnDelete" class="material-icons">delete</i>
             </button>
             <button class="material-icons-edit">
             <i id="btnEdit"class="material-icons">edit</i>
             </button>
             </li>
                 `;
-            }
-        });
-        finishTasks.innerHTML = displayTasks;
-    }
+      }
+    });
+    finishTasks.innerHTML = displayTasks;
+  }
 });
