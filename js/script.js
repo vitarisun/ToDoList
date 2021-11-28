@@ -19,22 +19,6 @@ window.addEventListener('DOMContentLoaded', () => {
     id = 0;
   }
 
-  function SaveStorage() {
-    localStorage.setItem('todo', JSON.stringify(todoList));
-  }
-
-  function newToDo() {
-    let newToDo = {
-      todo: newTask.value,
-      id: genID(),
-      checked: false,
-      important: false,
-      edit: false,
-      delete: false,
-    };
-    todoList.push(newToDo);
-  }
-
   addButton.addEventListener('click', function (e) {
     enterText();
     clearNewTask();
@@ -46,22 +30,6 @@ window.addEventListener('DOMContentLoaded', () => {
       clearNewTask();
     }
   });
-
-  function enterText() {
-    if (newTask.value == '') {
-      alert('Введите задачу!');
-    } else {
-      newToDo();
-      displayTasks();
-      SaveStorage();
-    }
-  }
-
-  function clearNewTask() {
-    setTimeout(() => {
-      newTask.value = '';
-    }, 200);
-  }
 
   startTasks.addEventListener('change', function (e) {
     let idInput = e.target.getAttribute('id');
@@ -102,10 +70,6 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
-  function genID() {
-    return Math.floor(Math.random() * 100000);
-  }
 
   finishTasks.addEventListener('click', function (e) {
     const element = +e.target.getAttribute('id');
@@ -163,5 +127,41 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
     finishTasks.innerHTML = displayTasks;
+  }
+
+  function SaveStorage() {
+    localStorage.setItem('todo', JSON.stringify(todoList));
+  }
+
+  function newToDo() {
+    let newToDo = {
+      todo: newTask.value,
+      id: genID(),
+      checked: false,
+      important: false,
+      edit: false,
+      delete: false,
+    };
+    todoList.push(newToDo);
+  }
+
+  function enterText() {
+    if (newTask.value == '') {
+      alert('Введите задачу!');
+    } else {
+      newToDo();
+      displayTasks();
+      SaveStorage();
+    }
+  }
+
+  function clearNewTask() {
+    setTimeout(() => {
+      newTask.value = '';
+    }, 200);
+  }
+
+  function genID() {
+    return Math.floor(Math.random() * 100000);
   }
 });
