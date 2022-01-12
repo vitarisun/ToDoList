@@ -72,6 +72,8 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   finishTasks.addEventListener('click', function (e) {
+    console.log(e.target);
+
     const element = +e.target.getAttribute('id');
 
     todoList.forEach(function (item, i) {
@@ -97,11 +99,7 @@ window.addEventListener('DOMContentLoaded', () => {
           item.important ? 'important' : ''
         }"}>${item.todo}</label>
             </button>
-            <button class="material-icons-edit">
-            <i class="material-icons">edit</i>
-            </button>
-            </li>
-            `;
+            </li>`;
       }
     });
     startTasks.innerHTML = displayTasks;
@@ -118,9 +116,6 @@ window.addEventListener('DOMContentLoaded', () => {
             <label for = 'item_${i}'>${item.todo}</label>
              <button class="material-icons-delete">
             <i type = 'button' id = ${item.id} class="material-icons">delete</i>
-            </button>
-            <button class="material-icons-edit">
-            <i id="btnEdit"class="material-icons">edit</i>
             </button>
             </li>
                 `;
